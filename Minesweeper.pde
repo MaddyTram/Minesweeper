@@ -67,13 +67,13 @@ public void displayLosingMessage() {
   }
   textSize(20);
   fill(255, 0, 0);
-  text("Game Over!", 200, 405);
+  text("Game Over!", 200, 410);
 }
 
 public void displayWinningMessage() {
   textSize(20);
   fill(0, 255, 0);
-  text("You Win!", 200, 405);
+  text("You Win!", 200, 410);
 }
 
 public boolean isValid(int r, int c) {
@@ -193,5 +193,7 @@ public class MSButton {
     clicked = false;
     flagged = false;
     myLabel = "";
+    isRed = false;
   }
 }
+
