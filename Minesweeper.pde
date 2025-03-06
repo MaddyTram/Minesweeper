@@ -97,6 +97,12 @@ public int countMines(int row, int col) {
   return numMines;
 }
 
+void keyPressed() {
+  if(key == 'R' || key == 'r') {
+    resetGame();
+  }
+}
+
 public void resetGame() {
   gameOver = false;
   mines.clear();
