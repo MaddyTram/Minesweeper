@@ -187,7 +187,7 @@ public class MSButton {
 
   public void draw () {
     if (flagged)
-      drawFlag(x + width/2, y + height/2);
+      fill(0);
     else if (clicked && mines.contains(this) )
       fill(255, 0, 0);
     else if (clicked)
@@ -202,29 +202,7 @@ public class MSButton {
     rect(x, y, width, height);
     fill(0);
     text(myLabel, x + width/2, y + height/2);
-  }
-
-  private void drawFlag(float centerX, float centerY) {
-    // Draw the flag stick (a vertical line)
-    float flagStickX = centerX;
-    float flagStickY = centerY + 10;
-    stroke(0);
-    strokeWeight(3);
-    line(flagStickX, flagStickY, flagStickX, flagStickY - 20);
-
-    // Draw the flag as a triangle at the top of the stick
-    fill(255, 0, 0);
-    noStroke();
-
-    // Adjusting the flag triangle to ensure it's centered above the stick
-    float triangleBase = 12;
-    float triangleHeight = 8;
-    
-    float flagX = flagStickX - triangleBase / 2;
-    float flagY = flagStickY - 15 - triangleHeight;
-    
-    triangle(flagX, flagY, flagX + triangleBase, flagY, flagStickX, flagY - triangleHeight);
-  }
+}
 
   public void setLabel(String newLabel) {
     myLabel = newLabel;
