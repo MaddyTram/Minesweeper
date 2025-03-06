@@ -143,7 +143,11 @@ public class MSButton {
 
   // called by manager
   public void mousePressed () {
-    if (flagged || clicked || gameOver) {
+    if (gameOver) {
+      return;
+    }
+    
+    if(flagged) {
       return;
     }
 
