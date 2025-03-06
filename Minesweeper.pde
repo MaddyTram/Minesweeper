@@ -39,8 +39,8 @@ public void setMines() {
 public void displayMineAndFlagInfo() {
   fill(255);
   textSize(16);
-  text("Mines: " + totalMines, 50, height - 30); // Move it slightly higher
-  text("Flags Left: " + flagsLeft, width - 50, height - 30); // Move it slightly higher
+  text("Mines: " + totalMines, 50, 410); // Move it slightly higher
+  text("Flags Left: " + flagsLeft, 350, 410); // Move it slightly higher
 }
 
 public void draw () {
