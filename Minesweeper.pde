@@ -188,18 +188,18 @@ public class MSButton {
   }
   
   private void drawFlag() {
-    float flagX = x + width / 2 - 5;
-    float flagY = y + height / 2 - 5;
+    float flagX = x + width / 2 - 3;
+    float flagY = y + height / 2 - 10;
     
     //flag stick
     stroke(0);
-    strokeWeight(3);
-    line(flagX, flagY, flagX, flagY - 15);
+    strokeWeight(2);
+    line(flagX, flagY, flagX, flagY - 10);
     
     //flag
     fill(255, 0, 0);
     noStroke();
-    rect(flagX - 5, flagY - 15, 10, 6);
+    triangle(flagX - 5, flagY - 12, flagX + 5, flagY - 12, flagX, flagY - 18);
   }
 
   public void setLabel(String newLabel) {
