@@ -29,7 +29,7 @@ void setup () {
 public void setMines() {
   //your code
   int totalMines = NUM_ROWS;
-  while(mines.size() < totalMines) {
+  while (mines.size() < totalMines) {
     int r = (int)(Math.random() * NUM_ROWS);
     int c = (int)(Math.random() * NUM_COLS);
     if (!mines.contains(buttons[r][c])) {
@@ -40,7 +40,7 @@ public void setMines() {
 
 public void draw () {
   background( 0 );
-  if(gameOver) {
+  if (gameOver) {
     displayLosingMessage();
   } else if (isWon()) {
     displayWinningMessage();
@@ -48,10 +48,10 @@ public void draw () {
 }
 
 public boolean isWon() {
-  for(int r = 0; r < NUM_ROWS; r++) {
-    for(int c = 0; c < NUM_COLS; c++) {
+  for (int r = 0; r < NUM_ROWS; r++) {
+    for (int c = 0; c < NUM_COLS; c++) {
       MSButton btn = buttons[r][c];
-      if(!mines.contains(btn) && !btn.clicked) {
+      if (!mines.contains(btn) && !btn.clicked) {
         return false;
       }
     }
@@ -60,7 +60,7 @@ public boolean isWon() {
 }
 
 public void displayLosingMessage() {
-  for(int i = 0; i < mines.size(); i++) {
+  for (int i = 0; i < mines.size(); i++) {
     MSButton mine = mines.get(i);
     mine.setLabel("X");
     mine.setRed();
@@ -100,8 +100,8 @@ public int countMines(int row, int col) {
 public void resetGame() {
   gameOver = false;
   mines.clear();
-  for(int r = 0; r < NUM_ROWS; r++) {
-    for(int c = 0; c < NUM_COLS; c++) {
+  for (int r = 0; r < NUM_ROWS; r++) {
+    for (int c = 0; c < NUM_COLS; c++) {
       buttons[r][c].reset();
     }
   }
@@ -119,7 +119,7 @@ public class MSButton {
     width = 400/NUM_COLS;
     height = 400/NUM_ROWS;
     myRow = row;
-    myCol = col; 
+    myCol = col;
     x = myCol*width;
     y = myRow*height;
     myLabel = "";
@@ -130,24 +130,24 @@ public class MSButton {
 
   // called by manager
   public void mousePressed () {
-    if(flagged || clicked || gameOver) {
+    if (flagged || clicked || gameOver) {
       return;
     }
-    
+
     clicked = true;
 
     if (mouseButton == RIGHT) {
       flagged = !flagged;
-      if(!flagged) {
+      if (!flagged) {
         clicked = false;
       }
     }
-   if (mines.contains(this)) {
-     gameOver = true;
-     displayLosingMessage();
+    if (mines.contains(this)) {
+      gameOver = true;
+      displayLosingMessage();
     } else {
       int neighborMines = countMines(myRow, myCol);
-      if(neighborMines > 0) {
+      if (neighborMines > 0) {
         setLabel(neighborMines);
       } else {
         for (int r = myRow - 1; r <= myRow + 1; r++) {
@@ -159,21 +159,21 @@ public class MSButton {
       }
     }
   }
-  
+
   public void setRed() {
     isRed = true;
   }
-  
-  public void draw () {    
+
+  public void draw () {
     if (flagged)
       fill(0);
-    else if (clicked && mines.contains(this) ) 
+    else if (clicked && mines.contains(this) )
       fill(255, 0, 0);
     else if (clicked)
       fill( 200 );
-     else if(isRed) 
-       fill(255, 0, 0);
-    else 
+    else if (isRed)
+      fill(255, 0, 0);
+    else
     fill( 100 );
 
     rect(x, y, width, height);
@@ -188,9 +188,10 @@ public class MSButton {
   public void setLabel(int newLabel) {
     myLabel = ""+ newLabel;
   }
-  
+
   public void reset() {
     clicked = false;
     flagged = false;
     myLabel = "";
   }
+}
