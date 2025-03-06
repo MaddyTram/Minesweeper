@@ -39,7 +39,7 @@ public void setMines() {
 public void displayMineAndFlagInfo() {
   fill(255);
   textSize(16);
-  text("Mines: " + totalMines, 10, 410);
+  text("Mines: " + totalMines, 50, 410);
   text("Flags Left: " + flagsLeft, 350, 410);
 }
 
@@ -217,13 +217,13 @@ public class MSButton {
     noStroke();
 
     // Adjusting the flag triangle to ensure it's centered above the stick
-    float flagWidth = 15;
-    float flagHeight = 10;
+    float triangleBase = 12;
+    float triangleHeight = 8;
     
-    float flagX = flagStickX - flagWidth / 2;
-    float flagY = flagStickY - 20;
+    float flagX = flagStickX - triangleBase / 2;
+    float flagY = flagStickY - 15 - triangleHeight;
     
-    rect(flagX, flagY, flagWidth, flagHeight);
+    triangle(flagX, flagY, flagX + triangleBase, flagY, flagStickX, flagY - triangleHeight);
   }
 
   public void setLabel(String newLabel) {
