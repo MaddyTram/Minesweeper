@@ -1,12 +1,15 @@
 import de.bezier.guido.*;
-
-import de.bezier.guido.*;
 public final static int NUM_ROWS = 20;
 public final static int NUM_COLS = 20;
 private boolean gameOver = false;
 
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> mines = new ArrayList <MSButton> (); //ArrayList of just the minesweeper buttons that are mined
+
+private int totalMines = NUM_ROWS;
+private int flagsLeft;
+private int totalFlags = NUM_ROWS;
+
 
 void setup () {
   size(400, 420);
@@ -15,20 +18,17 @@ void setup () {
   // make the manager
   Interactive.make( this );
 
-  //your code to initialize buttons goes here
   buttons = new MSButton[NUM_ROWS][NUM_COLS];
   for (int r = 0; r < buttons.length; r++) {
     for (int c = 0; c < buttons[r].length; c++) {
       buttons[r][c] = new MSButton(r, c);
     }
   }
-
   setMines();
+  flagsLeft = totalFlags;
 }
 
 public void setMines() {
-  //your code
-  int totalMines = NUM_ROWS;
   while (mines.size() < totalMines) {
     int r = (int)(Math.random() * NUM_ROWS);
     int c = (int)(Math.random() * NUM_COLS);
@@ -38,8 +38,16 @@ public void setMines() {
   }
 }
 
+public void displayMineAndFlagInfo() {
+  fill(255);
+  textSize(16);
+  text("Mines: " + totalMines, 10, 410);
+  text("Flags Left: " + flagsLeft, 350, 410);
+}
+
 public void draw () {
   background( 0 );
+  displayMineAndFlagInfo();
   if (gameOver) {
     displayLosingMessage();
   } else if (isWon()) {
@@ -98,7 +106,7 @@ public int countMines(int row, int col) {
 }
 
 void keyPressed() {
-  if(key == 'R' || key == 'r') {
+  if (key == 'R' || key == 'r') {
     resetGame();
   }
 }
@@ -112,6 +120,7 @@ public void resetGame() {
     }
   }
   setMines();
+  flagsLeft = totalFlags;
 }
 
 
@@ -121,17 +130,17 @@ public class MSButton {
   private boolean clicked, flagged, isRed;
   private String myLabel;
 
-  public MSButton ( int row, int col ) {
+  public MSButton (int row, int col) {
     width = 400/NUM_COLS;
     height = 400/NUM_ROWS;
     myRow = row;
     myCol = col;
-    x = myCol*width;
-    y = myRow*height;
+    x = myCol * width;
+    y = myRow * height;
     myLabel = "";
     flagged = clicked = false;
     isRed = false;
-    Interactive.add( this ); // register it with the manager
+    Interactive.add(this); // register it with the manager
   }
 
   // called by manager
@@ -145,11 +154,17 @@ public class MSButton {
       if (!flagged) {
         clicked = false;
       }
-      return;
+
+    if (flagged) {
+      flagsLeft--;
+    } else {
+      flagsLeft++;
     }
-    
-      clicked = true;
-        
+    return;
+   }
+
+    clicked = true;
+
     if (mines.contains(this)) {
       gameOver = true;
       displayLosingMessage();
@@ -182,7 +197,7 @@ public class MSButton {
     else if (isRed)
       fill(255, 0, 0);
     else
-    fill( 100 );
+      fill(100);
 
     stroke(0);
     strokeWeight(2);
@@ -190,33 +205,29 @@ public class MSButton {
     fill(0);
     text(myLabel, x+width/2, y+height/2);
   }
-  
+
   private void drawFlag(float centerX, float centerY) {
-  // Draw the flag stick (a vertical line)
-  float flagStickX = centerX;  
-  float flagStickY = centerY - 10; 
-  stroke(0); 
-  strokeWeight(2);
-  line(flagStickX, flagStickY, flagStickX, flagStickY - 10);  
-  
-  // Draw the flag as a triangle at the top of the stick
-  fill(255, 0, 0); 
-  noStroke();  
+    // Draw the flag stick (a vertical line)
+    float flagStickX = centerX;
+    float flagStickY = centerY - 10;
+    stroke(0);
+    strokeWeight(2);
+    line(flagStickX, flagStickY, flagStickX, flagStickY - 10);
 
-  // Adjusting the flag triangle to ensure it's centered above the stick
-  float triangleBase = 12; 
-  
-  float leftX = flagStickX - triangleBase / 2;
-  float rightX = flagStickX + triangleBase / 2;
-  float topX = flagStickX;  
+    // Draw the flag as a triangle at the top of the stick
+    fill(255, 0, 0);
+    noStroke();
 
-  float topY = flagStickY - 10; 
-  float bottomY = flagStickY - 14; 
-  
-  // Draw the triangle (flag part)
-  triangle(leftX, topY, rightX, topY, topX, bottomY);
-}
+    // Adjusting the flag triangle to ensure it's centered above the stick
+    float triangleBase = 12;
+    float leftX = flagStickX - triangleBase / 2;
+    float rightX = flagStickX + triangleBase / 2;
+    float topY = flagStickY - 10;
+    float bottomY = flagStickY - 14;
 
+    // Draw the triangle (flag part)
+    triangle(leftX, topY, rightX, topY, flagStickX, bottomY);
+  }
 
   public void setLabel(String newLabel) {
     myLabel = newLabel;
