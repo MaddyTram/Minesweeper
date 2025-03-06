@@ -134,14 +134,16 @@ public class MSButton {
       return;
     }
 
-    clicked = true;
-
     if (mouseButton == RIGHT) {
       flagged = !flagged;
       if (!flagged) {
         clicked = false;
       }
+      return;
     }
+    
+      clicked = true;
+        
     if (mines.contains(this)) {
       gameOver = true;
       displayLosingMessage();
@@ -179,6 +181,25 @@ public class MSButton {
     rect(x, y, width, height);
     fill(0);
     text(myLabel, x+width/2, y+height/2);
+    
+    if(flagged) {
+      drawFlag();
+    }
+  }
+  
+  private void drawFlag() {
+    float flagX = x + width / 2 - 5;
+    float flagY = y + height / 2 - 5;
+    
+    //flag stick
+    stroke(0);
+    strokeWeight(3);
+    line(flagX, flagY, flagX, flagY - 15);
+    
+    //flag
+    fill(255, 0, 0);
+    noStroke();
+    rect(flagX - 5, flagY - 15, 10, 6);
   }
 
   public void setLabel(String newLabel) {
@@ -196,4 +217,3 @@ public class MSButton {
     isRed = false;
   }
 }
-
