@@ -39,8 +39,8 @@ public void setMines() {
 public void displayMineAndFlagInfo() {
   fill(255);
   textSize(16);
-  text("Mines: " + totalMines, 50, 410);
-  text("Flags Left: " + flagsLeft, 350, 410);
+  text("Mines: " + totalMines, 50, height - 10);
+  text("Flags Left: " + flagsLeft, width - 50, height - 10);
 }
 
 public void draw () {
@@ -57,8 +57,10 @@ public boolean isWon() {
   for (int r = 0; r < NUM_ROWS; r++) {
     for (int c = 0; c < NUM_COLS; c++) {
       MSButton btn = buttons[r][c];
-      if (!mines.contains(btn) && !btn.clicked) {
-        return false;
+      if (!mines.contains(btn))
+        if(!btn.clicked && !btn.flagged) {
+          return false;
+        }
       }
     }
   }
@@ -146,18 +148,16 @@ public class MSButton {
     if (gameOver) {
       return;
     }
-    
-    if(flagged) {
-      return;
-    }
 
     if (mouseButton == RIGHT) {
       if (flagged) {
-        flagged = !flagged;
+        flagged = false;
         flagsLeft--;
       } else {
-        flagged = flagged;
-        flagsLeft++;
+        if(flagsLeft > 0) {
+          flagged = true;
+          flagsLeft++;
+        }
       }
       return;
    }
