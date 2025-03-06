@@ -8,6 +8,7 @@ private int totalMines = NUM_ROWS;
 private int flagsLeft;
 private int totalFlags = NUM_ROWS;
 
+
 void setup () {
   size(400, 420);
   textAlign(CENTER, CENTER);
@@ -190,7 +191,7 @@ public class MSButton {
     else if (clicked && mines.contains(this) )
       fill(255, 0, 0);
     else if (clicked)
-      fill( 200 );
+      fill(200);
     else if (isRed)
       fill(255, 0, 0);
     else
@@ -200,30 +201,29 @@ public class MSButton {
     strokeWeight(2);
     rect(x, y, width, height);
     fill(0);
-    text(myLabel, x+width/2, y+height/2);
+    text(myLabel, x + width/2, y + height/2);
   }
 
   private void drawFlag(float centerX, float centerY) {
     // Draw the flag stick (a vertical line)
     float flagStickX = centerX;
-    float flagStickY = centerY - 10;
+    float flagStickY = centerY + 10;
     stroke(0);
-    strokeWeight(2);
-    line(flagStickX, flagStickY, flagStickX, flagStickY - 10);
+    strokeWeight(3);
+    line(flagStickX, flagStickY, flagStickX, flagStickY - 20);
 
     // Draw the flag as a triangle at the top of the stick
     fill(255, 0, 0);
     noStroke();
 
     // Adjusting the flag triangle to ensure it's centered above the stick
-    float triangleBase = 12;
-    float leftX = flagStickX - triangleBase / 2;
-    float rightX = flagStickX + triangleBase / 2;
-    float topY = flagStickY - 10;
-    float bottomY = flagStickY - 14;
-
-    // Draw the triangle (flag part)
-    triangle(leftX, topY, rightX, topY, flagStickX, bottomY);
+    float flagWidth = 15;
+    float flagHeight = 10;
+    
+    float flagX = flagStickX - flagWidth / 2;
+    float flagY = flagStickY - 20;
+    
+    rect(flagX, flagY, flagWidth, flagHeight);
   }
 
   public void setLabel(String newLabel) {
@@ -231,7 +231,7 @@ public class MSButton {
   }
 
   public void setLabel(int newLabel) {
-    myLabel = ""+ newLabel;
+    myLabel = "" + newLabel;
   }
 
   public void reset() {
