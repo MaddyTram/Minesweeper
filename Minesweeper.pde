@@ -4,7 +4,7 @@ public final static int NUM_COLS = 20;
 private boolean gameOver = false;
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> mines = new ArrayList <MSButton> (); //ArrayList of just the minesweeper buttons that are mined
-private int totalMines = NUM_ROWS;
+private int totalMines = NUM_ROWS * 2;
 private int flagsLeft;
 private int totalFlags = NUM_ROWS;
 
