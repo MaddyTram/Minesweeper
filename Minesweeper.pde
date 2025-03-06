@@ -39,8 +39,8 @@ public void setMines() {
 public void displayMineAndFlagInfo() {
   fill(255);
   textSize(16);
-  text("Mines: " + totalMines, 50, height - 10);
-  text("Flags Left: " + flagsLeft, width - 50, height - 10);
+  text("Mines: " + totalMines, 50, height - 30); // Move it slightly higher
+  text("Flags Left: " + flagsLeft, width - 50, height - 30); // Move it slightly higher
 }
 
 public void draw () {
@@ -57,10 +57,11 @@ public boolean isWon() {
   for (int r = 0; r < NUM_ROWS; r++) {
     for (int c = 0; c < NUM_COLS; c++) {
       MSButton btn = buttons[r][c];
-      if (!mines.contains(btn))
-        if(!btn.clicked && !btn.flagged) {
-          return false;
-        }
+      if (mines.contains(btn) && !btn.flagged) {
+        return false;
+      }
+      if (!mines.contains(btn) && !btn.clicked) {
+        return false;
       }
     }
   }
@@ -114,13 +115,15 @@ void keyPressed() {
 public void resetGame() {
   gameOver = false;
   mines.clear();
+  
   for (int r = 0; r < NUM_ROWS; r++) {
     for (int c = 0; c < NUM_COLS; c++) {
       buttons[r][c].reset();
     }
   }
   setMines();
-  flagsLeft = totalFlags;
+  
+  flagsLeft = totalFlags; 
 }
 
 
@@ -140,10 +143,9 @@ public class MSButton {
     myLabel = "";
     flagged = clicked = false;
     isRed = false;
-    Interactive.add(this); // register it with the manager
+    Interactive.add(this);
   }
 
-  // called by manager
   public void mousePressed () {
     if (gameOver) {
       return;
@@ -152,11 +154,11 @@ public class MSButton {
     if (mouseButton == RIGHT) {
       if (flagged) {
         flagged = false;
-        flagsLeft--;
+        flagsLeft++;
       } else {
         if(flagsLeft > 0) {
           flagged = true;
-          flagsLeft++;
+          flagsLeft--;
         }
       }
       return;
