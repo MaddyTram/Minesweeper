@@ -3,6 +3,7 @@ import de.bezier.guido.*;
 import de.bezier.guido.*;
 public final static int NUM_ROWS = 20;
 public final static int NUM_COLS = 20;
+private boolean gameOver = false;
 
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> mines = new ArrayList <MSButton> (); //ArrayList of just the minesweeper buttons that are mined
@@ -39,7 +40,9 @@ public void setMines() {
 
 public void draw () {
   background( 0 );
-  if (isWon() == true) {
+  if(gameOver) {
+    displayLosingMessage();
+  } else if (isWon()) {
     displayWinningMessage();
   }
 }
@@ -60,6 +63,7 @@ public void displayLosingMessage() {
   for(int i = 0; i < mines.size(); i++) {
     MSButton mine = mines.get(i);
     mine.setLabel("X");
+    mine.setRed();
   }
   textSize(20);
   fill(255, 0, 0);
@@ -93,10 +97,22 @@ public int countMines(int row, int col) {
   return numMines;
 }
 
+public void resetGame() {
+  gameOver = false;
+  mines.clear();
+  for(int r = 0; r < NUM_ROWS; r++) {
+    for(int c = 0; c < NUM_COLS; c++) {
+      buttons[r][c].reset();
+    }
+  }
+  setMines();
+}
+
+
 public class MSButton {
   private int myRow, myCol;
   private float x, y, width, height;
-  private boolean clicked, flagged;
+  private boolean clicked, flagged, isRed;
   private String myLabel;
 
   public MSButton ( int row, int col ) {
@@ -108,11 +124,16 @@ public class MSButton {
     y = myRow*height;
     myLabel = "";
     flagged = clicked = false;
+    isRed = false;
     Interactive.add( this ); // register it with the manager
   }
 
   // called by manager
   public void mousePressed () {
+    if(flagged || clicked || gameOver) {
+      return;
+    }
+    
     clicked = true;
 
     if (mouseButton == RIGHT) {
@@ -122,7 +143,8 @@ public class MSButton {
       }
     }
    if (mines.contains(this)) {
-      displayLosingMessage();
+     gameOver = true;
+     displayLosingMessage();
     } else {
       int neighborMines = countMines(myRow, myCol);
       if(neighborMines > 0) {
@@ -137,6 +159,11 @@ public class MSButton {
       }
     }
   }
+  
+  public void setRed() {
+    isRed = true;
+  }
+  
   public void draw () {    
     if (flagged)
       fill(0);
@@ -144,6 +171,8 @@ public class MSButton {
       fill(255, 0, 0);
     else if (clicked)
       fill( 200 );
+     else if(isRed) 
+       fill(255, 0, 0);
     else 
     fill( 100 );
 
@@ -159,8 +188,9 @@ public class MSButton {
   public void setLabel(int newLabel) {
     myLabel = ""+ newLabel;
   }
-
-  public boolean isFlagged() {
-    return flagged;
+  
+  public void reset() {
+    clicked = false;
+    flagged = false;
+    myLabel = "";
   }
-}
