@@ -174,7 +174,7 @@ public class MSButton {
 
   public void draw () {
     if (flagged)
-      fill(0);
+      drawFlag(x + width/2, y + height/2);
     else if (clicked && mines.contains(this) )
       fill(255, 0, 0);
     else if (clicked)
@@ -184,29 +184,39 @@ public class MSButton {
     else
     fill( 100 );
 
+    stroke(0);
+    strokeWeight(2);
     rect(x, y, width, height);
     fill(0);
     text(myLabel, x+width/2, y+height/2);
-    
-    if(flagged) {
-      drawFlag();
-    }
   }
   
-  private void drawFlag() {
-    float flagX = x + width / 2 - 3;
-    float flagY = y + height / 2 - 10;
-    
-    //flag stick
-    stroke(0);
-    strokeWeight(2);
-    line(flagX, flagY, flagX, flagY - 10);
-    
-    //flag
-    fill(255, 0, 0);
-    noStroke();
-    triangle(flagX - 5, flagY - 12, flagX + 5, flagY - 12, flagX, flagY - 18);
-  }
+  private void drawFlag(float centerX, float centerY) {
+  // Draw the flag stick (a vertical line)
+  float flagStickX = centerX;  
+  float flagStickY = centerY - 10; 
+  stroke(0); 
+  strokeWeight(2);
+  line(flagStickX, flagStickY, flagStickX, flagStickY - 10);  
+  
+  // Draw the flag as a triangle at the top of the stick
+  fill(255, 0, 0); 
+  noStroke();  
+
+  // Adjusting the flag triangle to ensure it's centered above the stick
+  float triangleBase = 12; 
+  
+  float leftX = flagStickX - triangleBase / 2;
+  float rightX = flagStickX + triangleBase / 2;
+  float topX = flagStickX;  
+
+  float topY = flagStickY - 10; 
+  float bottomY = flagStickY - 14; 
+  
+  // Draw the triangle (flag part)
+  triangle(leftX, topY, rightX, topY, topX, bottomY);
+}
+
 
   public void setLabel(String newLabel) {
     myLabel = newLabel;
