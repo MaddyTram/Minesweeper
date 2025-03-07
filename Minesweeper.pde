@@ -73,13 +73,13 @@ public void displayLosingMessage() {
   }
   textSize(20);
   fill(255, 0, 0);
-  text("Game Over!", 200, 408);
+  text("Game Over!", 200, 410);
 }
 
 public void displayWinningMessage() {
   textSize(20);
   fill(0, 255, 0);
-  text("You Win!", 200, 408);
+  text("You Win!", 200, 410);
 }
 
 public boolean isValid(int r, int c) {
