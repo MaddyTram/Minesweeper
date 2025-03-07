@@ -8,14 +8,12 @@ private int totalMines = NUM_ROWS * 2;
 private int flagsLeft;
 private int totalFlags = NUM_ROWS * 2;
 
-
 void setup () {
   size(400, 420);
   textAlign(CENTER, CENTER);
 
   // make the manager
   Interactive.make( this );
-
   buttons = new MSButton[NUM_ROWS][NUM_COLS];
   for (int r = 0; r < buttons.length; r++) {
     for (int c = 0; c < buttons[r].length; c++) {
@@ -39,8 +37,7 @@ public void setMines() {
 public void displayMineAndFlagInfo() {
   fill(255);
   textSize(16);
-  text("Mines: " + totalMines, 50, 410); // Move it slightly higher
-  text("Flags Left: " + flagsLeft, 350, 410); // Move it slightly higher
+  text("Flags Left: " + flagsLeft, 55, 407); // Move it slightly higher
 }
 
 public void draw () {
@@ -76,13 +73,13 @@ public void displayLosingMessage() {
   }
   textSize(20);
   fill(255, 0, 0);
-  text("Game Over!", 200, 410);
+  text("Game Over!", 200, 407);
 }
 
 public void displayWinningMessage() {
   textSize(20);
   fill(0, 255, 0);
-  text("You Win!", 200, 410);
+  text("You Win!", 200, 407);
 }
 
 public boolean isValid(int r, int c) {
@@ -115,17 +112,15 @@ void keyPressed() {
 public void resetGame() {
   gameOver = false;
   mines.clear();
-  
+
   for (int r = 0; r < NUM_ROWS; r++) {
     for (int c = 0; c < NUM_COLS; c++) {
       buttons[r][c].reset();
     }
   }
   setMines();
-  
-  flagsLeft = totalFlags; 
+  flagsLeft = totalFlags;
 }
-
 
 public class MSButton {
   private int myRow, myCol;
@@ -150,22 +145,19 @@ public class MSButton {
     if (gameOver) {
       return;
     }
-
     if (mouseButton == RIGHT) {
       if (flagged) {
         flagged = false;
         flagsLeft++;
       } else {
-        if(flagsLeft > 0) {
+        if (flagsLeft > 0) {
           flagged = true;
           flagsLeft--;
         }
       }
       return;
-   }
-
+    }
     clicked = true;
-
     if (mines.contains(this)) {
       gameOver = true;
       displayLosingMessage();
@@ -205,7 +197,7 @@ public class MSButton {
     rect(x, y, width, height);
     fill(0);
     text(myLabel, x + width/2, y + height/2);
-}
+  }
 
   public void setLabel(String newLabel) {
     myLabel = newLabel;
