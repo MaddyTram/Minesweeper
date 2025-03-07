@@ -37,7 +37,7 @@ public void setMines() {
 public void displayMineAndFlagInfo() {
   fill(255);
   textSize(16);
-  text("Flags Left: " + flagsLeft, 55, 407); // Move it slightly higher
+  text("Flags Left: " + flagsLeft, 55, 408); // Move it slightly higher
 }
 
 public void draw () {
@@ -73,13 +73,13 @@ public void displayLosingMessage() {
   }
   textSize(20);
   fill(255, 0, 0);
-  text("Game Over!", 200, 407);
+  text("Game Over!", 200, 408);
 }
 
 public void displayWinningMessage() {
   textSize(20);
   fill(0, 255, 0);
-  text("You Win!", 200, 407);
+  text("You Win!", 200, 408);
 }
 
 public boolean isValid(int r, int c) {
